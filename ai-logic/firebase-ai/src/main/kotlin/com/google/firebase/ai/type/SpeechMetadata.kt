@@ -16,6 +16,7 @@
 
 package com.google.firebase.ai.type
 
+import java.util.Objects
 import kotlinx.serialization.Serializable
 
 /**
@@ -37,6 +38,15 @@ constructor(
   public val style: String? = null,
 ) {
   internal fun toInternal() = SpeechMetadataInternal(speaker = speaker, style = style)
+
+  override fun equals(other: Any?): Boolean {
+    if (other is SpeechMetadata) {
+      return other.speaker == this.speaker && other.style == this.style
+    }
+    return false
+  }
+
+  override fun hashCode(): Int = Objects.hash(this.speaker, this.style)
 }
 
 @Serializable

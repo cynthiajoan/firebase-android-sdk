@@ -127,4 +127,15 @@ internal class SpeechMetadataTest {
     part.shouldBeInstanceOf<TextPart>()
     part.speechMetadata.shouldBeNull()
   }
+
+  @Test
+  fun `SpeechMetadata supports value equality and hashCode`() {
+    val first = SpeechMetadata(speaker = "Joe", style = "cheerful")
+    val second = SpeechMetadata(speaker = "Joe", style = "cheerful")
+    val different = SpeechMetadata(speaker = "Jane", style = "cheerful")
+
+    (first == second) shouldBe true
+    first.hashCode() shouldBe second.hashCode()
+    (first == different) shouldBe false
+  }
 }
