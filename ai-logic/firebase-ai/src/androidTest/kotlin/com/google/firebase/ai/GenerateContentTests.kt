@@ -43,7 +43,7 @@ import org.junit.Test
 class GenerateContentTests {
   private val validator = TypesValidator()
 
-  private val ttsModelName = "gemini-3.1-flash-tts-preview"
+  private val ttsModelName = "gemini-3.8-flash-tts"
 
   /**
    * Ensures the model can response to prompts and that the structure of this response is expected.
@@ -147,7 +147,10 @@ class GenerateContentTests {
     val models = AIModels.getGenerativeModels(modelName = ttsModelName, config = config)
     runBlocking {
       for (model in models) {
-        val response = model.generateContent("Hello")
+        val response =
+          model.generateContent(
+            content { text("Hello!", SpeechMetadata(style = "cheerful")) }
+          )
         validator.validateResponse(response)
       }
     }
@@ -172,7 +175,13 @@ class GenerateContentTests {
     val models = AIModels.getGenerativeModels(modelName = ttsModelName, config = config)
     runBlocking {
       for (model in models) {
-        val response = model.generateContent("Hello")
+        val response =
+          model.generateContent(
+            content {
+              text("Hello!", SpeechMetadata(speaker = "Speaker1", style = "cheerful"))
+              text("Hi there!", SpeechMetadata(speaker = "Speaker2", style = "friendly"))
+            }
+          )
         validator.validateResponse(response)
       }
     }
